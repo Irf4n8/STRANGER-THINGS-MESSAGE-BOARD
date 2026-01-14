@@ -1,0 +1,605 @@
+:root {
+    --bg-color: #050505;
+    --wall-color: #1a1510;
+    --text-color: #ccc;
+    --bulb-off: rgba(255, 255, 255, 0.1);
+    --bulb-on-base: #ffaa00;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* CRT Scanline Effect */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(to bottom,
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* Film Grain */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+    opacity: 0.1;
+    animation: grain 8s steps(10) infinite;
+    z-index: 99;
+    pointer-events: none;
+}
+
+@keyframes grain {
+
+    0%,
+    100% {
+        transform: translate(0, 0)
+    }
+
+    10% {
+        transform: translate(-5%, -10%)
+    }
+
+    20% {
+        transform: translate(-15%, 5%)
+    }
+
+    30% {
+        transform: translate(7%, -25%)
+    }
+
+    40% {
+        transform: translate(-5%, 25%)
+    }
+
+    50% {
+        transform: translate(-15%, 10%)
+    }
+
+    60% {
+        transform: translate(15%, 0%)
+    }
+
+    70% {
+        transform: translate(0%, 15%)
+    }
+
+    80% {
+        transform: translate(3%, 35%)
+    }
+
+    90% {
+        transform: translate(-10%, 10%)
+    }
+}
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* Common UI */
+.stranger-header {
+    text-align: center;
+    margin-bottom: 40px;
+    /* Increased margin */
+    z-index: 20;
+    position: relative;
+    /* Ensure it doesn't shift layout abruptly */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stranger-title {
+    font-family: 'Libre Baskerville', serif;
+    color: transparent;
+    -webkit-text-stroke: 2px #ff0000;
+    font-size: 4rem;
+    line-height: 0.9;
+    margin: 0;
+    letter-spacing: -2px;
+    text-shadow:
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 20px #800000;
+    text-transform: uppercase;
+    animation: header-flicker 4s infinite;
+}
+
+.stranger-subtitle {
+    font-family: 'Libre Baskerville', serif;
+    color: #fff;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-top: 2px solid #800000;
+    border-bottom: 2px solid #800000;
+    display: inline-block;
+    padding: 5px 20px;
+    margin-top: 10px;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+@keyframes header-flicker {
+
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000;
+    }
+
+    20%,
+    24%,
+    55% {
+        opacity: 0.8;
+        text-shadow: none;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Sender UI */
+.input-box {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.input-box input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px dashed #555;
+    /* Dashed line for older feel */
+    color: #0f0;
+    /* Green terminal text */
+    font-size: 2rem;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    /* Ensure mono */
+    width: 400px;
+    padding: 10px;
+    outline: none;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #0f0;
+    /* Terminal glow */
+    letter-spacing: 5px;
+}
+
+.input-box input:focus {
+    border-bottom-color: #0f0;
+}
+
+.input-box input::placeholder {
+    color: #445544;
+    text-shadow: none;
+}
+
+#validationMsg {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    font-family: 'Courier New', serif;
+    /* Typewriter style */
+}
+
+.btn-run {
+    background: #000;
+    color: #c00;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border: 3px solid #c00;
+    padding: 15px 50px;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow:
+        0 0 10px #c00,
+        inset 0 0 10px #c00;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-run:hover {
+    background: #c00;
+    color: #000;
+    box-shadow: 0 0 20px #f00;
+}
+
+.link-display a {
+    color: #0ff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-bottom: 1px dashed #0ff;
+}
+
+/* Receiver / Wall UI */
+.wall-container {
+    background: url('https://www.transparenttextures.com/patterns/floral-linen.png'), radial-gradient(#2a2010, #000);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 50%, #000 100%);
+    pointer-events: none;
+}
+
+.wall-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    /* Space between rows */
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    /* Space between letters */
+}
+
+/* The Bulb Unit */
+.letter-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 60px;
+    /* Ensure space for glow */
+}
+
+/* The Realistic Bulb */
+.bulb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 5;
+
+    /* Off State: Glassy, dark */
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 30%),
+        radial-gradient(circle at 50% 50%, #444, #222);
+    /* Dark glass */
+    box-shadow: inset -2px -2px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.4;
+    transition: all 0.1s ease-out;
+}
+
+/* Bulb Socket/Base */
+.bulb::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 9px;
+    width: 12px;
+    height: 8px;
+    background: #1a1a1a;
+    border-radius: 2px;
+}
+
+/* The Paint */
+.paint {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.5rem;
+    color: #000;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.1);
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: -5px;
+}
+
+/* ON STATES - REALISTIC GLOW */
+.bulb.on {
+    opacity: 1;
+    z-index: 10;
+    animation: flicker 0.1s infinite alternate;
+}
+
+/* Specific Colors */
+.bulb.red.on {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #ff0000 40%, #8b0000 100%);
+    box-shadow:
+        0 0 10px 2px #ff4444,
+        0 0 30px 10px rgba(255, 0, 0, 0.6),
+        0 0 80px 20px rgba(255, 0, 0, 0.3);
+}
+
+.bulb.green.on {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #00ff00 40%, #005500 100%);
+    box-shadow:
+        0 0 10px 2px #44ff44,
+        0 0 30px 10px rgba(0, 255, 0, 0.6),
+        0 0 80px 20px rgba(0, 255, 0, 0.3);
+}
+
+.bulb.blue.on {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #00ccff 40%, #00008b 100%);
+    box-shadow:
+        0 0 10px 2px #44ffff,
+        0 0 30px 10px rgba(0, 204, 255, 0.6),
+        0 0 80px 20px rgba(0, 204, 255, 0.3);
+}
+
+.bulb.yellow.on {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #ffdd00 40%, #8b7500 100%);
+    box-shadow:
+        0 0 10px 2px #ffff88,
+        0 0 30px 10px rgba(255, 221, 0, 0.6),
+        0 0 80px 20px rgba(255, 221, 0, 0.3);
+}
+
+.bulb.pink.on {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #ff00cc 40%, #8b0066 100%);
+    box-shadow:
+        0 0 10px 2px #ff88dd,
+        0 0 30px 10px rgba(255, 0, 204, 0.6),
+        0 0 80px 20px rgba(255, 0, 204, 0.3);
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+
+    50% {
+        opacity: 0.95;
+        filter: brightness(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+}
+
+#start-prompt {
+    position: absolute;
+    bottom: 20px;
+    color: #666;
+    animation: pulse 2s infinite;
+    cursor: pointer;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+/* STRANGER THINGS ATMOSPHERE */
+.storm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ff0000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 50;
+    mix-blend-mode: overlay;
+    animation: lightning 10s infinite;
+}
+
+.vines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, #000 120%),
+        url('https://www.transparenttextures.com/patterns/dark-matter.png');
+    pointer-events: none;
+    z-index: 45;
+    opacity: 0.6;
+}
+
+@keyframes lightning {
+    0% {
+        opacity: 0;
+    }
+
+    2% {
+        opacity: 0.2;
+    }
+
+    4% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    42% {
+        opacity: 0.3;
+    }
+
+    43% {
+        opacity: 0.1;
+    }
+
+    44% {
+        opacity: 0;
+    }
+}
+
+/* JOYCE ANIMATION - FINAL CLOUD FIX */
+.joyce-wrapper {
+    position: fixed;
+    bottom: -200px;
+    right: 20px;
+    z-index: 1001;
+    /* Above scanlines */
+    display: flex;
+    flex-direction: column-reverse;
+    /* Bubble on TOP, Image on BOTTOM */
+    align-items: center;
+    pointer-events: none;
+    transition: bottom 0.5s ease-out;
+    /* Smooth transition instead of auto-animation */
+}
+
+.joyce-wrapper.active {
+    bottom: 0px;
+    animation: joycePopup 6s ease-out forwards;
+}
+
+.joyce-img {
+    width: 150px;
+    /* Small Size */
+    height: auto;
+    filter: drop-shadow(0 0 10px #000);
+    transform: rotate(-5deg);
+    margin-top: -10px;
+    /* Overlap slightly */
+}
+
+/* THOUGHT BUBBLE CLOUD STYLE */
+.speech-bubble {
+    background: #fff;
+    color: #000;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    padding: 15px 25px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+    /* Space between bubble and head */
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    animation: bubblePop 0.3s 1s forwards;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border: 3px solid #ddd;
+}
+
+/* Cloud Bumps */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    top: -15px;
+    left: 10px;
+    z-index: -1;
+    box-shadow: -5px -5px 0 -2px #ddd;
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    bottom: -5px;
+    right: 10px;
+    z-index: -1;
+    box-shadow: 5px 5px 0 -2px #ddd;
+}
+
+/* Thought Dots (Leading UP to bubble) */
+.joyce-wrapper::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 120px;
+    /* Position betwen head and bubble */
+    right: 15px;
+    /* Adjust horizontal alignment */
+    box-shadow:
+        10px -15px 0 3px #fff,
+        /* Second dot (bigger, higher) */
+        -2px 2px 0 0px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    animation: bubblePop 0.3s 1s forwards;
+    z-index: 1002;
+}
+
+@keyframes joycePopup {
+    0% {
+        bottom: -200px;
+    }
+
+    10% {
+        bottom: 0px;
+    }
+
+    90% {
+        bottom: 0px;
+    }
+
+    100% {
+        bottom: -200px;
+    }
+}
+
+@keyframes bubblePop {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

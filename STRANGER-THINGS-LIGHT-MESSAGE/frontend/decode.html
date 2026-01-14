@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message from Beside</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Brush+Script+MT&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="storm"></div>
+    <div class="vines"></div>
+    <div id="ghost-hand" class="hand-cursor"></div>
+
+    <!-- Joyce Character Animation -->
+    <div class="joyce-wrapper">
+        <img src="joyce.png" alt="Joyce Byers" class="joyce-img">
+        <div class="speech-bubble">Let's Decode Together...!!!</div>
+    </div>
+
+    <div class="wall-container">
+        <!-- Replaced Vignette with Vines -->
+
+        <!-- Added Title -->
+        <div style="width: 100%; text-align: center; z-index: 5; margin-bottom: 40px;">
+            <header class="stranger-header" style="transform: scale(0.8);">
+                <h1 class="stranger-title">STRANGER<br>THINGS</h1>
+                <div class="stranger-subtitle">MESSAGE DECODER</div>
+            </header>
+        </div>
+
+        <div class="wall-grid" id="wall">
+            <!-- Rows of lights will be injected here if not static -->
+        </div>
+        <div id="start-prompt">CLICK TO RECEIVE MESSAGE</div>
+    </div>
+
+    <!-- Audio Elements for Immersion (Optional but requested) -->
+    <!-- We will rely on visual only if no audio file provided, but placeholder logic included -->
+
+    <script src="lights.js"></script>
+</body>
+
+</html>

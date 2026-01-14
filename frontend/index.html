@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranger Things Message Board</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts for Retro Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay"></div> <!-- For Upside Down particles/vignette -->
+    
+    <div class="container">
+        <header>
+            <h1 class="glow-text">STRANGER<br>THINGS</h1>
+            <h2 class="subtitle">MESSAGE BOARD</h2>
+        </header>
+
+        <section class="posting-area">
+            <div class="card-glass">
+                <h3>Broadcast Message</h3>
+                <form id="messageForm">
+                    <div class="form-group">
+                        <label for="username">Identity (Name)</label>
+                        <input type="text" id="username" placeholder="e.g. MadMax" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avatar">Character Avatar</label>
+                        <select id="avatar">
+                            <option value="eleven">Eleven</option>
+                            <option value="mike">Mike</option>
+                            <option value="dustin">Dustin</option>
+                            <option value="lucas">Lucas</option>
+                            <option value="will">Will</option>
+                            <option value="max">Max</option>
+                            <option value="steve">Steve</option>
+                            <option value="hopper">Hopper</option>
+                            <option value="demogorgon">Demogorgon</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Transmission</label>
+                        <textarea id="content" rows="3" placeholder="Is anyone there?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-retro">SEND TRANSMISSION</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="board-area">
+            <div class="board-header">
+                <h3>Incoming Transmissions</h3>
+                <button id="refreshBtn" class="btn-small">REFRESH</button>
+            </div>
+            <div id="messagesContainer" class="messages-list">
+                <!-- Messages will be injected here -->
+                <div class="loading">Scanning frequencies...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

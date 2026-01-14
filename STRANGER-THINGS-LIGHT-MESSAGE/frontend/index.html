@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upside Down Messenger</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Roboto+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="storm"></div>
+    <div class="vines"></div>
+    <div class="container sender-container">
+        <header class="stranger-header">
+            <h1 class="stranger-title">STRANGER<br>THINGS</h1>
+            <div class="stranger-subtitle">UPSIDE DOWN MESSENGER</div>
+        </header>
+
+        <div class="input-box">
+            <input type="text" id="messageInput" maxlength="20" placeholder="ENTER MESSAGE (A-Z)" autocomplete="off">
+            <div id="validationMsg">ONLY LETTERS A-Z. MAX 20.</div>
+        </div>
+
+        <button id="encodeBtn" class="btn-run">RUN</button>
+
+        <div id="resultArea" class="hidden">
+            <p>MESSAGE ENCODED. SHARE THIS LINK:</p>
+            <div class="link-display">
+                <a id="shareLink" href="#" target="_blank">...generating...</a>
+            </div>
+            <button id="copyBtn" class="btn-small">COPY LINK</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api/encode';
+
+        document.getElementById('encodeBtn').addEventListener('click', async () => {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Simple client-side validation check
+            if (/[^a-zA-Z\s]/.test(message)) {
+                alert('Only letters are allowed!');
+                return;
+            }
+
+            const btn = document.getElementById('encodeBtn');
+            btn.textContent = 'ENCODING...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+
+                if (data.link) {
+                    const fullLink = `${window.location.href.replace('index.html', '')}${data.link.replace('/', '')}`;
+                    // Fix logic to ensure correct path construction
+                    const origin = window.location.origin + window.location.pathname.replace('index.html', '');
+                    const finalLink = origin + 'decode.html?id=' + data.id;
+
+                    document.getElementById('shareLink').href = finalLink;
+                    document.getElementById('shareLink').textContent = finalLink;
+                    document.getElementById('resultArea').classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server Error');
+            } finally {
+                btn.textContent = 'RUN';
+                btn.disabled = false;
+            }
+        });
+
+        // Typing Sound Logic
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTypeSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(800 + Math.random() * 200, audioCtx.currentTime); // High pitch click
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        document.getElementById('messageInput').addEventListener('input', playTypeSound);
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const link = document.getElementById('shareLink').textContent;
+            navigator.clipboard.writeText(link);
+            alert('COPIED!');
+        });
+    </script>
+</body>
+
+</html>

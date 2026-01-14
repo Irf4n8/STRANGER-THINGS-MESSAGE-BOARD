@@ -1,0 +1,227 @@
+:root {
+    --bg-color: #050505;
+    --text-color: #eee;
+    --red-glow: #ff0000;
+    --red-dim: #8b0000;
+    --glass-bg: rgba(20, 20, 20, 0.8);
+    --border-color: #ff3333;
+    --font-heading: 'Libre Baskerville', serif;
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 50% 50%, #1a0505 0%, #000 80%);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    from { background-position: 0 0; }
+    to { background-position: 100px 100px; }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Typography */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.glow-text {
+    font-family: var(--font-heading);
+    color: transparent;
+    -webkit-text-stroke: 2px var(--red-glow);
+    font-size: 4rem;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -2px;
+    text-shadow: 0 0 10px var(--red-glow), 0 0 20px var(--red-dim);
+    animation: flicker 3s infinite alternate;
+}
+
+.subtitle {
+    font-family: var(--font-heading);
+    color: var(--text-color);
+    letter-spacing: 5px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-top: 10px;
+    border-top: 2px solid var(--red-dim);
+    border-bottom: 2px solid var(--red-dim);
+    display: inline-block;
+    padding: 5px 20px;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 5px var(--red-glow), 0 0 10px var(--red-glow);
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.5;
+    }
+}
+
+/* Forms and Cards */
+.card-glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--red-dim);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
+    margin-bottom: 30px;
+}
+
+.card-glass h3, .board-header h3 {
+    margin-top: 0;
+    color: var(--red-glow);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--red-dim);
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--red-glow);
+    box-shadow: 0 0 5px var(--red-dim);
+}
+
+.btn-retro {
+    background: transparent;
+    color: var(--red-glow);
+    border: 2px solid var(--red-glow);
+    padding: 10px 20px;
+    font-family: var(--font-heading);
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-retro:hover {
+    background: var(--red-glow);
+    color: #000;
+    box-shadow: 0 0 15px var(--red-glow);
+}
+
+.btn-small {
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+.btn-small:hover {
+    border-color: var(--red-glow);
+}
+
+/* Message Board */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message-card {
+    background: rgba(30, 30, 30, 0.6);
+    border-left: 4px solid var(--red-dim);
+    padding: 15px;
+    position: relative;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.meta-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.user-tag {
+    color: var(--red-glow);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.msg-content {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.avatar-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #333;
+    margin-right: 5px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+}
