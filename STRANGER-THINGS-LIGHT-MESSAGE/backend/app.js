@@ -3,42 +3,37 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = 3001; // Using 3001 to avoid conflict with previous project
+
+// SECURITY: HTTP Headers
+app.use(helmet());
+
+// SECURITY: Rate Limiting (limit each IP to 100 requests per 15 mins)
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { error: 'Too many requests from this IP, please try again later.' }
+});
+app.use(limiter);
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-const DB_PATH = path.join(__dirname, '../database/messages.json');
+const DB_FILE = path.join(__dirname, '../database/messages.json');
 
 // Ensure database file exists
-if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, JSON.stringify({}));
+if (!fs.existsSync(DB_FILE)) {
+    fs.writeFileSync(DB_FILE, JSON.stringify([]));
 }
-
-// Helper to read DB
-const readDB = () => {
-    try {
-        const data = fs.readFileSync(DB_PATH);
-        return JSON.parse(data);
-    } catch (e) {
-        return {};
-    }
-};
-
-// Helper to write DB
-const writeDB = (data) => {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
-};
 
 // POST: Encode Message
 app.post('/api/encode', (req, res) => {
     const { message } = req.body;
-    if (!message) return res.status(400).json({ error: 'Message required' });
-
     // Processing Logic
     const cleanMessage = message.toUpperCase().replace(/[^A-Z ]/g, ''); // Keep spaces
     const encodedArray = [];

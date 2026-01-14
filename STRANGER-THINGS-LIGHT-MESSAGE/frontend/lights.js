@@ -119,6 +119,19 @@ async function playSequence(encodedArray) {
     // Final Sequence: Glow Entire Message
     await wait(800);
     playFinalSequence(encodedArray);
+
+    // REVEAL MESSAGE (Added feature)
+    await wait(2000); // Wait for final flash to finish
+    const finalMsgEl = document.getElementById('finalMessage');
+    // Decode logic: Filter PAUSE and join
+    const decodedText = encodedArray.filter(c => c !== 'PAUSE').join('');
+
+    if (finalMsgEl) {
+        finalMsgEl.textContent = decodedText;
+        finalMsgEl.classList.remove('hidden');
+        finalMsgEl.classList.add('visible');
+        playBuzz(); // Impact sound
+    }
 }
 
 // Hand Animation Logic
