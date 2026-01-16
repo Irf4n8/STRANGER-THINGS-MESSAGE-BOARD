@@ -45,6 +45,8 @@ A retro, 1980s-inspired message board application styled after the "Upside Down"
 - **Real-time WebSockets**: For instant message delivery without polling.
 - **Upside Down Mode Toggle**: Switch between the "Real World" and "Upside Down" visually.
 - **Admin Panel**: To moderate Demogorgon attacks (spam).
+- **This is Under Progress Project**: This is a yet to complete project.
+
 
 ---
 *Friends don't lie.*
